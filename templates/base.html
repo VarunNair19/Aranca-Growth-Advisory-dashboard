@@ -1,0 +1,535 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Aranca Growth Advisory — Competitive Intelligence Radar</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-app: #070b14;
+      --bg-surface: #0f172a;
+      --bg-elevated: #172236;
+      --border: rgba(148, 163, 184, 0.18);
+      --text-primary: #f8fafc;
+      --text-secondary: #94a3b8;
+      --aranca-blue: #2563eb;
+      --aranca-blue-hover: #1d4ed8;
+      --aranca-blue-soft: #93c5fd;
+      --aranca-crimson: #e11d48;
+      --success-bg: rgba(16, 185, 129, 0.14);
+      --success-border: #10b981;
+      --success-text: #6ee7b7;
+      --warn-bg: rgba(245, 158, 11, 0.14);
+      --warn-border: #f59e0b;
+      --warn-text: #fcd34d;
+      --danger-bg: rgba(225, 29, 72, 0.15);
+      --danger-border: #e11d48;
+      --danger-text: #fda4af;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg-app);
+      color: var(--text-primary);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    h1, h2, h3, h4, .brand-title, .section-title {
+      font-family: "Plus Jakarta Sans", "Inter", sans-serif;
+      letter-spacing: -0.015em;
+    }
+
+    code, .mono {
+      font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+      font-size: 0.84em;
+    }
+
+    header.app-header {
+      background: linear-gradient(180deg, #0b1222 0%, #090f1d 100%);
+      border-bottom: 1px solid var(--border);
+      padding: 18px 24px 0;
+    }
+
+    .header-row {
+      max-width: 1240px;
+      margin: 0 auto 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .logo-badge {
+      background: #ffffff;
+      border-radius: 8px;
+      padding: 5px 11px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      border-left: 3px solid var(--aranca-crimson);
+    }
+
+    .logo-badge img {
+      height: 34px;
+      width: auto;
+      display: block;
+    }
+
+    .brand-title {
+      margin: 0;
+      font-size: 1.22rem;
+      font-weight: 700;
+    }
+
+    .brand-sub {
+      margin: 3px 0 0;
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+    }
+
+    .action-bar {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: flex-start;
+    }
+
+    .action-item {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 5px;
+    }
+
+    .action-item form {
+      margin: 0;
+    }
+
+    .scan-meta {
+      font-size: 0.76rem;
+      color: var(--text-secondary);
+      padding-left: 2px;
+    }
+
+    nav.tab-nav {
+      max-width: 1240px;
+      margin: 0 auto;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .nav-tab {
+      color: var(--text-secondary);
+      text-decoration: none;
+      padding: 10px 16px;
+      border-radius: 8px 8px 0 0;
+      font-size: 0.9rem;
+      font-weight: 500;
+      border: 1px solid transparent;
+      border-bottom: none;
+      transition: background 0.15s ease, color 0.15s ease;
+    }
+
+    .nav-tab:hover {
+      color: var(--text-primary);
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .nav-tab-active {
+      background: var(--bg-app);
+      color: var(--text-primary);
+      border-color: var(--border);
+      border-top: 2px solid var(--aranca-crimson);
+      font-weight: 600;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 1px 8px;
+      border-radius: 999px;
+      font-size: 0.74rem;
+      font-weight: 700;
+      background: var(--warn-bg);
+      color: var(--warn-text);
+      border: 1px solid var(--warn-border);
+      margin-left: 6px;
+    }
+
+    main.app-main {
+      max-width: 1240px;
+      margin: 24px auto;
+      padding: 0 24px 56px;
+    }
+
+    .panel {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 22px;
+      margin-bottom: 18px;
+    }
+
+    .panel-subtle {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 16px;
+    }
+
+    .section-title {
+      margin: 0 0 6px;
+      font-size: 1.08rem;
+      font-weight: 600;
+    }
+
+    .help-text {
+      margin: 0;
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 9px 16px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--bg-elevated);
+      color: var(--text-primary);
+      font-family: "Inter", sans-serif;
+      font-size: 0.88rem;
+      font-weight: 500;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background 0.15s ease, border-color 0.15s ease;
+    }
+
+    .btn:hover {
+      border-color: rgba(148, 163, 184, 0.36);
+      background: #1f2e47;
+    }
+
+    .btn-primary {
+      background: var(--aranca-blue);
+      border-color: var(--aranca-blue);
+      color: #ffffff;
+    }
+
+    .btn-primary:hover {
+      background: var(--aranca-blue-hover);
+      border-color: var(--aranca-blue-hover);
+    }
+
+    .btn-approve {
+      background: rgba(16, 185, 129, 0.18);
+      border-color: var(--success-border);
+      color: var(--success-text);
+    }
+
+    .btn-approve:hover {
+      background: rgba(16, 185, 129, 0.28);
+    }
+
+    .btn-reject {
+      background: var(--danger-bg);
+      border-color: var(--danger-border);
+      color: var(--danger-text);
+    }
+
+    .btn-reject:hover {
+      background: rgba(225, 29, 72, 0.26);
+    }
+
+    .btn-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: center;
+      margin-top: 14px;
+    }
+
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 14px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 14px;
+    }
+
+    label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 9px 12px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--bg-app);
+      color: var(--text-primary);
+      font-family: "Inter", sans-serif;
+      font-size: 0.9rem;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: var(--aranca-blue);
+    }
+
+    .pill {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      background: var(--bg-elevated);
+      color: #cbd5e1;
+      border: 1px solid var(--border);
+      margin-right: 6px;
+    }
+
+    .pill-approved {
+      background: var(--success-bg);
+      color: var(--success-text);
+      border-color: rgba(16, 185, 129, 0.35);
+    }
+
+    .pill-pending {
+      background: var(--warn-bg);
+      color: var(--warn-text);
+      border-color: rgba(245, 158, 11, 0.35);
+    }
+
+    .alert {
+      padding: 12px 16px;
+      border-radius: 10px;
+      margin-bottom: 16px;
+      border: 1px solid var(--border);
+      background: var(--bg-surface);
+      font-size: 0.9rem;
+    }
+
+    .alert-warning {
+      background: var(--warn-bg);
+      border-color: var(--warn-border);
+      color: var(--warn-text);
+    }
+
+    .alert-success {
+      background: var(--success-bg);
+      border-color: var(--success-border);
+      color: var(--success-text);
+    }
+
+    .alert-info {
+      background: rgba(37, 99, 235, 0.14);
+      border-color: rgba(59, 130, 246, 0.45);
+      color: #bfdbfe;
+    }
+
+    .muted {
+      color: var(--text-secondary);
+      font-size: 0.86rem;
+    }
+
+    .loading-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(2, 6, 23, 0.82);
+      z-index: 999;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .loading-backdrop.active {
+      display: flex;
+    }
+
+    .loading-card {
+      width: 100%;
+      max-width: 450px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-top: 3px solid var(--aranca-crimson);
+      border-radius: 14px;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .progress-track {
+      width: 100%;
+      height: 8px;
+      background: var(--bg-elevated);
+      border-radius: 999px;
+      overflow: hidden;
+      margin: 16px 0 10px;
+    }
+
+    .progress-bar-indeterminate {
+      width: 45%;
+      height: 100%;
+      background: linear-gradient(90deg, var(--aranca-crimson), var(--aranca-blue));
+      border-radius: 999px;
+      animation: slideBar 1.3s ease-in-out infinite;
+    }
+
+    @keyframes slideBar {
+      0% { transform: translateX(-110%); }
+      100% { transform: translateX(250%); }
+    }
+  </style>
+</head>
+<body>
+  <div id="loadingOverlay" class="loading-backdrop" role="status" aria-live="polite">
+    <div class="loading-card">
+      <div id="loadingTitle" style="font-weight: 600; font-size: 1.02rem;">Working on your request...</div>
+      <div id="loadingDetail" class="muted" style="margin-top: 6px;">Fetching data, checking guardrails, and preparing results.</div>
+      <div class="progress-track">
+        <div class="progress-bar-indeterminate"></div>
+      </div>
+      <div id="loadingSlowNote" class="muted" style="font-size: 0.78rem; margin-bottom: 14px;">
+        LLM or feed calls can take a moment if providers retry or fall back. You can close this screen anytime to keep browsing.
+      </div>
+      <button id="dismissOverlayBtn" class="btn" type="button">Close Overlay</button>
+    </div>
+  </div>
+
+  <header class="app-header">
+    <div class="header-row">
+      <div class="brand-group">
+        <div class="logo-badge">
+          <img src="{{ url_for('static', filename='aranca_logo_214x75.png') }}" alt="Aranca logo">
+        </div>
+        <div>
+          <h1 class="brand-title">Aranca Growth Advisory — Competitive Intelligence Radar</h1>
+          <p class="brand-sub">
+            Regions: US · KSA · UAE · India · Japan &nbsp;|&nbsp;
+            Approved: <strong>{{ approved_count }}</strong> &nbsp;|&nbsp;
+            Pending Review: <strong>{{ pending_count }}</strong>
+          </p>
+        </div>
+      </div>
+
+      <div class="action-bar">
+        <div class="action-item">
+          <form method="post" action="/seed" data-loading-title="Seeding 5 Starter Events..." data-loading-detail="Inserting sample baseline events across US, KSA, UAE, India, and Japan.">
+            <button class="btn" type="submit" title="Inserts 5 starter sample events across US, KSA, UAE, India, and Japan without calling live feeds.">
+              Seed 5 Starter Events
+            </button>
+          </form>
+          <span class="scan-meta">Starter dataset (idempotent)</span>
+        </div>
+
+        <div class="action-item">
+          <form method="post" action="/scan" data-loading-title="Scanning Competitor Feeds Since Last Scan..." data-loading-detail="Incremental scan checks updates from the last completed run date and runs dedupe + grounding checks.">
+            <button class="btn btn-primary" type="submit" title="Fetches new competitor updates since the last scan date, filters duplicates, and checks numbers.">
+              Scan Since Last Run
+            </button>
+          </form>
+          <span class="scan-meta">
+            Last scan: <strong>{{ last_run_date or 'No completed scan yet' }}</strong> · Checks updates since then
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <nav class="tab-nav" aria-label="Primary sections">
+      <a href="/" class="nav-tab{% if active_tab == 'radar' %} nav-tab-active{% endif %}">1. Signal Radar &amp; Filter</a>
+      <a href="/approvals" class="nav-tab{% if active_tab == 'approvals' %} nav-tab-active{% endif %}">
+        2. Review &amp; Approvals{% if pending_count > 0 %}<span class="badge">{{ pending_count }}</span>{% endif %}
+      </a>
+      <a href="/briefing" class="nav-tab{% if active_tab == 'briefing' %} nav-tab-active{% endif %}">3. Briefing &amp; Q&amp;A</a>
+      <a href="/manage" class="nav-tab{% if active_tab == 'manage' %} nav-tab-active{% endif %}">4. Upload &amp; Watchlist</a>
+    </nav>
+  </header>
+
+  <main class="app-main">
+    {% if not gemini_ready %}
+      <div class="alert alert-warning">
+        <strong>API Key Notice:</strong> <code>GEMINI_API_KEY</code> was not detected in the environment. Configure it in <code>.env</code> (or rely on configured fallback providers) to enable LLM extraction and synthesis.
+      </div>
+    {% endif %}
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% for category, msg in messages %}
+        <div class="alert alert-{{ category }}">{{ msg }}</div>
+      {% endfor %}
+    {% endwith %}
+
+    {% block content %}{% endblock %}
+  </main>
+
+  <script>
+    (function () {
+      const overlay = document.getElementById("loadingOverlay");
+      const titleEl = document.getElementById("loadingTitle");
+      const detailEl = document.getElementById("loadingDetail");
+      const closeBtn = document.getElementById("dismissOverlayBtn");
+      let slowTimer = null;
+
+      function hideOverlay() {
+        if (slowTimer) {
+          clearTimeout(slowTimer);
+          slowTimer = null;
+        }
+        if (overlay) overlay.classList.remove("active");
+      }
+
+      if (closeBtn) {
+        closeBtn.addEventListener("click", hideOverlay);
+      }
+
+      window.addEventListener("pageshow", hideOverlay);
+
+      document.querySelectorAll("form").forEach((form) => {
+        form.addEventListener("submit", () => {
+          if (!overlay) return;
+          const t = form.getAttribute("data-loading-title") || "Processing request...";
+          const d = form.getAttribute("data-loading-detail") || "Running pipeline steps and updating SQLite.";
+          if (titleEl) titleEl.textContent = t;
+          if (detailEl) detailEl.textContent = d;
+          overlay.classList.add("active");
+
+          if (slowTimer) clearTimeout(slowTimer);
+          slowTimer = setTimeout(() => {
+            if (detailEl && overlay.classList.contains("active")) {
+              detailEl.textContent = d + " (Still working—retries/fallbacks may take extra seconds.)";
+            }
+          }, 15000);
+        });
+      });
+    })();
+  </script>
+</body>
+</html>

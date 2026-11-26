@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="panel">
+  <h2 class="section-title">Review &amp; Approvals Guide</h2>
+  <p class="help-text">
+    Signals are placed in <strong>PENDING_REVIEW</strong> when automated checks spot numeric claims to verify against the source or when a document is uploaded manually. Note that viewing <strong>All Active</strong> shows both <strong>APPROVED</strong> and <strong>PENDING_REVIEW</strong> items—switch to <strong>Pending Review</strong> to see only items still waiting for review.
+  </p>
+
+  <div class="grid-3" style="margin-top: 16px;">
+    <div class="panel-subtle">
+      <strong>APPROVED</strong>
+      <p class="muted" style="margin: 6px 0 0;">Passed confidence and numeric grounding checks (or manually approved by a reviewer). Included in Daily Briefs and Q&amp;A.</p>
+    </div>
+    <div class="panel-subtle">
+      <strong>PENDING_REVIEW</strong>
+      <p class="muted" style="margin: 6px 0 0;">Contains figures/metrics not directly matched in the source snippet or comes from a manual upload awaiting verification.</p>
+    </div>
+    <div class="panel-subtle">
+      <strong>REJECTED</strong>
+      <p class="muted" style="margin: 6px 0 0;">Excluded from active views and executive briefings after reviewer inspection.</p>
+    </div>
+  </div>
+
+  <div class="btn-row">
+    <a class="btn{% if status_filter == 'PENDING_REVIEW' %} btn-primary{% endif %}" href="/approvals?status=PENDING_REVIEW">Pending Review ({{ pending_count }})</a>
+    <a class="btn{% if status_filter == 'APPROVED' %} btn-primary{% endif %}" href="/approvals?status=APPROVED">Approved ({{ approved_count }})</a>
+    <a class="btn{% if status_filter == 'ALL' %} btn-primary{% endif %}" href="/approvals?status=ALL">All Active</a>
+  </div>
+</div>
+
+{% if not events %}
+  <div class="panel"><p class="help-text">No signals are currently in this review queue.</p></div>
+{% endif %}
+
+{% for ev in events %}
+  <div class="panel">
+    <div style="display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap;">
+      <div>
+        <span class="pill{% if ev.review_status == 'PENDING_REVIEW' %} pill-pending{% else %} pill-approved{% endif %}">{{ ev.review_status }}</span>
+        <strong>{{ ev.company }}</strong> · <span class="muted">{{ ev.region }} · {{ ev.published_date }}</span>
+      </div>
+      <div style="display: flex; gap: 14px; align-items: center;">
+        <form method="post" action="/approvals/{{ ev.event_id }}" style="margin: 0;" data-loading-title="Updating Approval Status..." data-loading-detail="Saving review decision in SQLite.">
+          <input type="hidden" name="status" value="APPROVED">
+          <button class="btn btn-approve" type="submit">Approve</button>
+        </form>
+        <form method="post" action="/approvals/{{ ev.event_id }}" style="margin: 0;" data-loading-title="Updating Approval Status..." data-loading-detail="Saving review decision in SQLite.">
+          <input type="hidden" name="status" value="REJECTED">
+          <button class="btn btn-reject" type="submit">Reject</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="panel-subtle" style="margin-top: 12px;">
+      <span class="muted">
+        <strong>Why this status:</strong>
+        {% if ev.review_status == 'PENDING_REVIEW' %}
+          Queued for manual check—either it came from a document upload or contains numbers/metrics that should be verified against the source before briefing use.
+        {% else %}
+          Marked as <strong>APPROVED</strong> for inclusion in active intelligence views and briefings.
+        {% endif %}
+      </span>
+    </div>
+
+    <h3 style="margin: 12px 0 6px; font-size: 1.05rem;">{{ ev.title }}</h3>
+    <p style="margin: 0 0 10px;">{{ ev.executive_summary }}</p>
+    <p style="margin: 0 0 12px;"><strong>Strategic Implication:</strong> {{ ev.strategic_implication }}</p>
+
+    {% if is_safe_http_url(ev.source_url) %}
+      <a class="btn" href="{{ ev.source_url }}" target="_blank" rel="noopener noreferrer">Verify Original Source ↗</a>
+    {% endif %}
+  </div>
+{% endfor %}
+{% endblock %}

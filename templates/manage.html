@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="panel">
+  <h2 class="section-title">Upload Document (.pdf, .txt, .md)</h2>
+  <p class="help-text">
+    Ingest reports or notes safely. Uploaded files are sanitized and placed into <strong>PENDING_REVIEW</strong> so you can verify details on the Review &amp; Approvals tab before including them in briefings.
+  </p>
+
+  <form method="post" action="/manage" enctype="multipart/form-data" style="margin-top: 16px;" data-loading-title="Processing Uploaded Document..." data-loading-detail="Extracting text, generating embeddings, and queueing for review.">
+    <input type="hidden" name="form_type" value="upload">
+    <div class="grid-4">
+      <div>
+        <label for="up_company">Competitor Name</label>
+        <input id="up_company" name="company" type="text" value="BCG" required>
+      </div>
+      <div>
+        <label for="up_region">Region</label>
+        <select id="up_region" name="region">
+          {% for r in regions %}<option value="{{ r }}">{{ r }}</option>{% endfor %}
+        </select>
+      </div>
+      <div>
+        <label for="up_pillar">Tracking Pillar</label>
+        <select id="up_pillar" name="pillar">
+          {% for p in pillars %}<option value="{{ p }}">{{ p }}</option>{% endfor %}
+        </select>
+      </div>
+      <div>
+        <label for="up_date">Document Date (YYYY-MM-DD)</label>
+        <input id="up_date" name="published_date" type="text" value="2026-11-25" required>
+      </div>
+    </div>
+
+    <div style="margin-top: 14px;">
+      <label for="doc_file">Select File (.pdf, .txt, .md)</label>
+      <input id="doc_file" name="doc_file" type="file" accept=".pdf,.txt,.md" required>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-primary" type="submit">Upload &amp; Queue for Review</button>
+    </div>
+  </form>
+</div>
+
+<div class="panel">
+  <h2 class="section-title">Add or Update Competitor Watchlist</h2>
+  <p class="help-text">
+    Add a competitor to track or set a custom search query. If you leave the custom query blank, a default query using the competitor name is saved so scans have a clear search term to query.
+  </p>
+
+  <form method="post" action="/manage" style="margin-top: 16px;" data-loading-title="Saving Watchlist Competitor..." data-loading-detail="Syncing competitor configuration into SQLite.">
+    <input type="hidden" name="form_type" value="competitor">
+    <div class="grid-3">
+      <div>
+        <label for="comp_name">Competitor Name</label>
+        <input id="comp_name" name="company" type="text" placeholder="e.g., Kearney" required>
+      </div>
+      <div>
+        <label for="comp_region">Region</label>
+        <select id="comp_region" name="region">
+          {% for r in regions %}<option value="{{ r }}">{{ r }}</option>{% endfor %}
+        </select>
+      </div>
+      <div>
+        <label for="comp_query">Custom Search Query (optional)</label>
+        <input id="comp_query" name="rss_query" type="text" placeholder='e.g., "Kearney" advisory OR strategy'>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-primary" type="submit">Save Competitor</button>
+    </div>
+  </form>
+</div>
+
+<div class="panel">
+  <h2 class="section-title">Active Tracked Competitors ({{ competitors|length }})</h2>
+  <p class="help-text" style="margin-bottom: 14px;">
+    Companies currently active in SQLite for competitor scans and signal filtering.
+  </p>
+
+  {% if not competitors %}
+    <p class="muted" style="margin: 0;">No active competitors configured yet.</p>
+  {% else %}
+    <div class="grid-3">
+      {% for c in competitors %}
+        <div class="panel-subtle">
+          <strong>{{ c.name }}</strong> <span class="pill">{{ c.region }}</span>
+          <p class="muted" style="margin: 6px 0 0;">Query: <code>{{ c.rss_query or c.name }}</code></p>
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+</div>
+{% endblock %}

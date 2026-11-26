@@ -1,0 +1,195 @@
+{% extends "base.html" %}
+{% block content %}
+<style>
+  .radar-card-toggle {
+    width: 100%;
+    background: transparent;
+    border: none;
+    padding: 0;
+    text-align: left;
+    color: inherit;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 14px;
+    font-family: inherit;
+  }
+
+  .radar-card-toggle:hover .radar-card-title {
+    color: var(--aranca-blue-soft);
+  }
+
+  .radar-card-title {
+    margin: 10px 0 4px;
+    font-size: 1.04rem;
+    font-weight: 600;
+    transition: color 0.15s ease;
+  }
+
+  .radar-card-body {
+    display: none;
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px solid var(--border);
+  }
+
+  .radar-card.is-open .radar-card-body {
+    display: block;
+  }
+
+  .radar-expand-hint {
+    font-size: 0.78rem;
+    color: var(--text-secondary);
+    white-space: nowrap;
+  }
+</style>
+
+<div class="panel">
+  <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 14px; flex-wrap: wrap;">
+    <div>
+      <h2 class="section-title">Competitor Signal Radar &amp; Filter Explorer</h2>
+      <p class="help-text">
+        Search and filter stored competitor records across <strong>Competitor</strong>, <strong>Region</strong>, <strong>Tracking Pillar</strong>, and <strong>Keyword</strong>. Click any competitor card to view its full extracted intelligence and ideation.
+      </p>
+    </div>
+    <a class="btn" href="/export/signals.csv" title="Downloads stored signals as a formula-safe CSV file that opens in Excel.">
+      Download Excel / CSV
+    </a>
+  </div>
+
+  <div class="panel-subtle" style="margin-top: 14px;">
+    <span class="muted">
+      <strong>What Materiality (1/5 – 5/5) Means:</strong> Measures strategic impact on Aranca's Growth Advisory practice—<strong>1–2/5</strong> = minor update or routine PR, <strong>3/5</strong> = notable study or regional move, <strong>4–5/5</strong> = high-impact practice launch, M&amp;A activity, or major market expansion worth Practice Leader focus.
+    </span>
+  </div>
+
+  <form method="get" action="/" style="margin-top: 16px;">
+    <div class="grid-4">
+      <div>
+        <label for="company">Competitor</label>
+        <select id="company" name="company">
+          <option value="All"{% if sel_comp == 'All' %} selected{% endif %}>All Competitors</option>
+          {% for c in competitors %}
+            <option value="{{ c.name }}"{% if sel_comp == c.name %} selected{% endif %}>{{ c.name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div>
+        <label for="region">Region</label>
+        <select id="region" name="region">
+          <option value="All"{% if sel_reg == 'All' %} selected{% endif %}>All Regions</option>
+          {% for r in regions %}
+            <option value="{{ r }}"{% if sel_reg == r %} selected{% endif %}>{{ r }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div>
+        <label for="pillar">Tracking Pillar</label>
+        <select id="pillar" name="pillar">
+          <option value="All"{% if sel_pillar == 'All' %} selected{% endif %}>All Pillars</option>
+          {% for p in pillars %}
+            <option value="{{ p }}"{% if sel_pillar == p %} selected{% endif %}>{{ p }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div>
+        <label for="q">Keyword Search (FTS5)</label>
+        <input id="q" name="q" type="text" value="{{ search_q }}" placeholder="e.g., Riyadh, M&amp;A, pricing, GTM">
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-primary" type="submit">Apply Filters</button>
+      <a class="btn" href="/">Reset Filters</a>
+      {% if events %}
+        <button class="btn" type="button" id="toggleAllRadarCards">Expand All</button>
+      {% endif %}
+    </div>
+  </form>
+</div>
+
+<p class="muted" style="margin: 0 0 14px;">
+  Showing <strong>{{ events|length }}</strong> matching competitor record(s)
+  {% if sel_comp != 'All' %} · Competitor: <strong>{{ sel_comp }}</strong>{% endif %}
+  {% if sel_reg != 'All' %} · Region: <strong>{{ sel_reg }}</strong>{% endif %}
+  {% if sel_pillar != 'All' %} · Pillar: <strong>{{ sel_pillar }}</strong>{% endif %}
+  {% if search_q %} · Keyword: <strong>{{ search_q }}</strong>{% endif %}
+</p>
+
+{% if not events %}
+  <div class="panel">
+    <p class="help-text">
+      No competitor records match your current filter selection. Try resetting filters, clicking <strong>Seed 5 Starter Events</strong> in the header for sample data, or clicking <strong>Scan Since Last Run</strong>.
+    </p>
+  </div>
+{% endif %}
+
+{% for ev in events %}
+  <div class="panel radar-card{% if search_q or sel_comp != 'All' or loop.index == 1 %} is-open{% endif %}">
+    <button type="button" class="radar-card-toggle" aria-expanded="{% if search_q or sel_comp != 'All' or loop.index == 1 %}true{% else %}false{% endif %}">
+      <div>
+        <span class="pill">{{ ev.company }}</span>
+        <span class="pill">{{ ev.region }}</span>
+        <span class="pill">{{ ev.tracking_pillar }}</span>
+        <h3 class="radar-card-title">{{ ev.title }}</h3>
+        <p class="muted" style="margin: 0;">
+          Segment: <strong>{{ ev.aranca_segment }}</strong> · Published: {{ ev.published_date }}
+        </p>
+      </div>
+      <div style="text-align: right;">
+        <div class="muted" title="1–2: Routine | 3: Notable | 4–5: High Strategic Impact">
+          Materiality: <strong>{{ ev.materiality_score }}/5</strong>
+        </div>
+        <div class="radar-expand-hint" style="margin-top: 6px;">
+          {% if search_q or sel_comp != 'All' or loop.index == 1 %}Hide details ▲{% else %}View details ▼{% endif %}
+        </div>
+      </div>
+    </button>
+
+    <div class="radar-card-body">
+      <p style="margin: 0 0 10px;"><strong>Extracted Summary:</strong> {{ ev.executive_summary }}</p>
+      <p style="margin: 0 0 12px;"><strong>Strategic Implication &amp; Ideation for Aranca:</strong> {{ ev.strategic_implication }}</p>
+
+      {% if is_safe_http_url(ev.source_url) %}
+        <a class="btn" href="{{ ev.source_url }}" target="_blank" rel="noopener noreferrer">Open Source Reference ↗</a>
+      {% endif %}
+      {% if ev.additional_sources %}
+        <span class="muted" style="margin-left: 10px;">+{{ ev.additional_sources|length }} merged source(s)</span>
+      {% endif %}
+    </div>
+  </div>
+{% endfor %}
+
+<script>
+  (function () {
+    const cards = Array.from(document.querySelectorAll(".radar-card"));
+    const toggleAllBtn = document.getElementById("toggleAllRadarCards");
+
+    function setCardOpen(card, open) {
+      card.classList.toggle("is-open", open);
+      const btn = card.querySelector(".radar-card-toggle");
+      const hint = card.querySelector(".radar-expand-hint");
+      if (btn) btn.setAttribute("aria-expanded", open ? "true" : "false");
+      if (hint) hint.textContent = open ? "Hide details ▲" : "View details ▼";
+    }
+
+    cards.forEach((card) => {
+      const btn = card.querySelector(".radar-card-toggle");
+      if (!btn) return;
+      btn.addEventListener("click", () => {
+        const nextOpen = !card.classList.contains("is-open");
+        setCardOpen(card, nextOpen);
+      });
+    });
+
+    if (toggleAllBtn && cards.length > 0) {
+      toggleAllBtn.addEventListener("click", () => {
+        const anyClosed = cards.some((c) => !c.classList.contains("is-open"));
+        cards.forEach((c) => setCardOpen(c, anyClosed));
+        toggleAllBtn.textContent = anyClosed ? "Collapse All" : "Expand All";
+      });
+    }
+  })();
+</script>
+{% endblock %}

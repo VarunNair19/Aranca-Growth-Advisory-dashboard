@@ -1,0 +1,125 @@
+{
+  "firm_name": "Aranca",
+  "practice_name": "Growth Advisory",
+  "practice_head": "Prabir Chetia (Head - Growth Advisory)",
+  "source_url": "https://www.aranca.com/growth-advisory.php",
+  "overview": "Aranca's Growth Advisory practice helps global enterprises, private equity firms, and institutional investors decode market ecosystems, deliver strategic research, and solve complex growth challenges across 100+ countries.",
+  "core_offerings": [
+    {
+      "segment": "Market Share Expansion & Growth Acceleration",
+      "capabilities": [
+        "Market Sizing Assessment",
+        "Competitive Benchmarking",
+        "GTM & Revenue Acceleration",
+        "Diversification Strategy",
+        "Market Share Expansion"
+      ]
+    },
+    {
+      "segment": "Adjacency & Business Diversification Strategy",
+      "capabilities": [
+        "Adjacent Opportunity Scanning",
+        "Portfolio Diversification",
+        "Go-to-market Roadmap",
+        "Market Entry Strategy",
+        "Business Model Innovation",
+        "Diversification Performance Tracking"
+      ]
+    },
+    {
+      "segment": "Sales Effectiveness & Commercial Excellence",
+      "capabilities": [
+        "Sales Strategy & Coverage Optimization",
+        "Channel & Distributor Effectiveness",
+        "Pricing & Profitability Optimization",
+        "Key Account Management Strategy",
+        "Sales Performance Management Dashboards"
+      ]
+    },
+    {
+      "segment": "Feasibility Study & Long Range Business Planning",
+      "capabilities": [
+        "Capital Investment Planning & Prioritization",
+        "Greenfield & Brownfield Project Evaluation",
+        "Multi-year Business Planning & Budgeting Support",
+        "Strategic Scenario Modeling & Sensitivity Analysis",
+        "Market & Commercial Feasibility Studies",
+        "Financial Modeling & Investment Analysis"
+      ]
+    },
+    {
+      "segment": "Market Intelligence & Competitive Benchmarking",
+      "capabilities": [
+        "Competitor Intelligence & Profiling",
+        "Peer Financial Benchmarking",
+        "Price Benchmarking & Monitoring",
+        "Curated Market Monitoring",
+        "Mega Trend Assessment"
+      ]
+    },
+    {
+      "segment": "B2B Voice of Customer (VoC) & Customer Analytics",
+      "capabilities": [
+        "Customer Journey Mapping & Needs Diagnostics",
+        "Brand Perception Studies",
+        "Win-loss Churn Analysis",
+        "B2B Customer Segmentation & Insights",
+        "Customer Willingness Assessment"
+      ]
+    },
+    {
+      "segment": "Mergers & Acquisitions Strategy & Due Diligence",
+      "capabilities": [
+        "M&A Strategy & Thesis Development",
+        "Target Identification & Screening",
+        "Commercial Due Diligence",
+        "Value Creation Planning",
+        "Post-merger Integration Advisory"
+      ]
+    },
+    {
+      "segment": "New Product Development & Innovation Strategy",
+      "capabilities": [
+        "Innovation Strategy Development",
+        "Commercialization Potential",
+        "Concept Validation",
+        "Portfolio Optimization",
+        "Open Innovation Strategy",
+        "GTM Strategy Development"
+      ]
+    },
+    {
+      "segment": "Business Transformation & PMO Advisory",
+      "capabilities": [
+        "Enterprise Transformation Strategy",
+        "PMO Setup & Governance Design",
+        "Strategic Initiative Tracking & Reporting",
+        "Operating Model Transformation",
+        "Change Management & Stakeholder Alignment",
+        "Performance Improvement & Execution Support"
+      ]
+    },
+    {
+      "segment": "International Market Entry & Expansion Strategy",
+      "capabilities": [
+        "International Market Entry & Localization Strategy",
+        "Regulatory & Operational Feasibility Analysis",
+        "Partner Evaluation & Ecosystem Mapping",
+        "Market Entry & Scale-up Roadmap"
+      ]
+    }
+  ],
+  "priority_industries": [
+    "Aerospace & Defense",
+    "Agri, Consumer & Retail",
+    "Automotive & Mobility",
+    "Banking & Financial Services",
+    "Energy & Sustainability",
+    "Healthcare & Life Sciences",
+    "Industrial Equipment & Manufacturing",
+    "Logistics & Infrastructure",
+    "Real Estate & Construction",
+    "Technology, Media & Telecom (TMT)"
+  ],
+  "target_geographies": ["US", "KSA", "UAE", "India", "Japan"]
+}

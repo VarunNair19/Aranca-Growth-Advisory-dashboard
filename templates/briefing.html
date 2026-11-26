@@ -1,0 +1,328 @@
+{% extends "base.html" %}
+{% block content %}
+<style>
+  .qa-rich-output {
+    font-size: 0.94rem;
+    line-height: 1.65;
+    color: var(--text-primary);
+  }
+
+  .qa-rich-output h3,
+  .qa-rich-output h4 {
+    margin: 22px 0 10px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-primary);
+  }
+
+  .qa-rich-output p {
+    margin: 0 0 12px;
+  }
+
+  .qa-rich-output ul,
+  .qa-rich-output ol {
+    margin: 0 0 16px;
+    padding-left: 22px;
+  }
+
+  .qa-rich-output li {
+    margin-bottom: 8px;
+  }
+
+  .qa-table-wrap {
+    width: 100%;
+    overflow-x: auto;
+    margin: 14px 0 20px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: var(--bg-elevated);
+  }
+
+  .qa-table-wrap table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 680px;
+    font-size: 0.86rem;
+  }
+
+  .qa-table-wrap th {
+    text-align: left;
+    padding: 11px 14px;
+    background: rgba(37, 99, 235, 0.16);
+    color: var(--text-primary);
+    font-weight: 600;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .qa-table-wrap td {
+    padding: 11px 14px;
+    vertical-align: top;
+    border-bottom: 1px solid rgba(148, 163, 184, 0.12);
+    color: #e2e8f0;
+  }
+
+  .qa-table-wrap tr:last-child td {
+    border-bottom: none;
+  }
+
+  .qa-bottom-line {
+    margin-top: 16px;
+    padding: 14px 16px;
+    border-radius: 10px;
+    background: rgba(37, 99, 235, 0.12);
+    border: 1px solid rgba(59, 130, 246, 0.35);
+    border-left: 4px solid var(--aranca-blue);
+  }
+
+  .cite-tag {
+    display: inline-block;
+    padding: 1px 6px;
+    margin: 0 2px;
+    border-radius: 5px;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.75rem;
+    background: rgba(37, 99, 235, 0.22);
+    color: var(--aranca-blue-soft);
+    border: 1px solid rgba(96, 165, 250, 0.35);
+  }
+</style>
+
+<div class="panel">
+  <h2 class="section-title">Executive Briefing &amp; Hybrid Q&amp;A</h2>
+  <p class="help-text">
+    Ask targeted questions across <strong>APPROVED</strong> signals using <strong>Hybrid Q&amp;A</strong> (FTS5 keyword + semantic vector search) or generate a structured <strong>Daily Brief</strong> for Aranca Practice Leaders. If only 1 or a few signals appear, your database may currently have a small approved set or self-query filters narrowed the region, company, or pillar.
+  </p>
+
+  <form method="post" action="/briefing" style="margin-top: 16px;" data-loading-title="Synthesizing Intelligence Output..." data-loading-detail="Retrieving approved signals via FTS5 + embeddings and generating structured response.">
+    <div class="grid-3">
+      <div>
+        <label for="question">Question or Topic</label>
+        <input id="question" name="question" type="text" value="{{ question }}" placeholder="e.g., Key competitor moves in KSA, UAE, and India">
+      </div>
+      <div>
+        <label for="region">Region Scope (for Daily Brief)</label>
+        <select id="region" name="region">
+          <option value="All"{% if region_scope == 'All' %} selected{% endif %}>All Regions</option>
+          {% for r in regions %}
+            <option value="{{ r }}"{% if region_scope == r %} selected{% endif %}>{{ r }}</option>
+          {% endfor %}
+        </select>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-primary" type="submit" name="action" value="qa">Run Hybrid Q&amp;A</button>
+      <button class="btn" type="submit" name="action" value="brief">Generate Daily Brief</button>
+    </div>
+  </form>
+</div>
+
+{% if qa_answer %}
+  <div class="panel" style="overflow-wrap: anywhere;">
+    <h3 class="section-title">Hybrid Q&amp;A Response</h3>
+    <div id="qaFormattedContainer" class="qa-rich-output" style="margin-top: 12px;"></div>
+    <pre id="qaRawSource" style="display: none;">{{ qa_answer }}</pre>
+
+    {% if cited_events %}
+      <div class="panel-subtle" style="margin-top: 18px;">
+        <strong>Referenced Signals ({{ cited_events|length }} matched)</strong>
+        <div style="margin-top: 10px; display: grid; gap: 10px;">
+          {% for ev in cited_events[:6] %}
+            <div style="padding: 12px 14px; border-radius: 8px; background: var(--bg-surface); border: 1px solid var(--border);">
+              <div style="font-size: 0.9rem;">
+                <span class="pill">Source {{ loop.index }}</span>
+                <strong>{{ ev.company }}</strong> · <span class="muted">{{ ev.region }} · {{ ev.published_date }}</span>
+              </div>
+              <div style="margin-top: 6px; font-weight: 500;">{{ ev.title }}</div>
+              {% if ev.executive_summary %}
+                <p class="muted" style="margin: 6px 0 0;">{{ ev.executive_summary }}</p>
+              {% endif %}
+              {% if is_safe_http_url(ev.source_url) %}
+                <div style="margin-top: 8px; font-size: 0.84rem;">
+                  <a href="{{ ev.source_url }}" target="_blank" rel="noopener noreferrer" style="color: var(--aranca-blue-soft);">Open Source Article ↗</a>
+                </div>
+              {% endif %}
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    {% endif %}
+  </div>
+{% endif %}
+
+{% if daily_brief %}
+  <div class="panel" style="overflow-wrap: anywhere;">
+    <h3 class="section-title">Daily Executive Brief</h3>
+
+    <div class="panel-subtle" style="margin-top: 12px; margin-bottom: 16px;">
+      <strong>Headline Takeaway</strong>
+      <p style="margin: 6px 0 0;">{{ daily_brief.headline_takeaway }}</p>
+    </div>
+
+    <h4 style="margin: 0 0 8px;">Regional Highlights</h4>
+    {% if daily_brief.regional_highlights %}
+      <ul style="margin: 0 0 16px; padding-left: 20px;">
+        {% for item in daily_brief.regional_highlights %}
+          <li style="margin-bottom: 6px;">{{ item }}</li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p class="muted" style="margin: 0 0 16px;">No regional highlights returned for this scope.</p>
+    {% endif %}
+
+    <h4 style="margin: 0 0 8px;">Recommended Practice Leader Actions</h4>
+    {% if daily_brief.recommended_pl_actions %}
+      <ul style="margin: 0; padding-left: 20px;">
+        {% for item in daily_brief.recommended_pl_actions %}
+          <li style="margin-bottom: 6px;">{{ item }}</li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p class="muted" style="margin: 0;">No specific practice leader actions returned for this scope.</p>
+    {% endif %}
+  </div>
+{% endif %}
+
+<script>
+  (function () {
+    const rawEl = document.getElementById("qaRawSource");
+    const targetEl = document.getElementById("qaFormattedContainer");
+    if (!rawEl || !targetEl) return;
+
+    function escapeHtml(str) {
+      return str
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+    }
+
+    function formatInline(str) {
+      let out = escapeHtml(str);
+      out = out.replace(/<br\s*\/?>/gi, "<br>");
+      out = out.replace(/&lt;br\s*\/?&gt;/gi, "<br>");
+      out = out.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
+      out = out.replace(/\*([^*]+)\*/g, "<em>$1</em>");
+      out = out.replace(/\[Source\s+(\d+)\]/gi, '<span class="cite-tag">Source $1</span>');
+      return out;
+    }
+
+    function splitTableRow(line) {
+      const trimmed = line.trim().replace(/^\|/, "").replace(/\|$/, "");
+      return trimmed.split("|").map((c) => c.trim());
+    }
+
+    function isSeparatorRow(cells) {
+      return cells.length > 0 && cells.every((c) => /^:?-{2,}:?$/.test(c));
+    }
+
+    const lines = rawEl.textContent.replace(/\r\n/g, "\n").split("\n");
+    const htmlParts = [];
+    let i = 0;
+
+    while (i < lines.length) {
+      const line = lines[i].trim();
+
+      if (!line || line === "---") {
+        i += 1;
+        continue;
+      }
+
+      if (line.includes("|") && i + 1 < lines.length && lines[i + 1].includes("|")) {
+        const headerCells = splitTableRow(lines[i]);
+        const sepCells = splitTableRow(lines[i + 1]);
+        if (isSeparatorRow(sepCells)) {
+          i += 2;
+          const bodyRows = [];
+          while (i < lines.length && lines[i].trim().includes("|")) {
+            const rCells = splitTableRow(lines[i]);
+            if (!isSeparatorRow(rCells)) {
+              bodyRows.push(rCells);
+            }
+            i += 1;
+          }
+          let tbl = '<div class="qa-table-wrap"><table><thead><tr>';
+          headerCells.forEach((h) => {
+            tbl += `<th>${formatInline(h)}</th>`;
+          });
+          tbl += "</tr></thead><tbody>";
+          bodyRows.forEach((row) => {
+            tbl += "<tr>";
+            for (let cIdx = 0; cIdx < headerCells.length; cIdx += 1) {
+              tbl += `<td>${formatInline(row[cIdx] || "")}</td>`;
+            }
+            tbl += "</tr>";
+          });
+          tbl += "</tbody></table></div>";
+          htmlParts.push(tbl);
+          continue;
+        }
+      }
+
+      if (line.startsWith("### ")) {
+        htmlParts.push(`<h3>${formatInline(line.slice(4))}</h3>`);
+        i += 1;
+        continue;
+      }
+
+      if (line.startsWith("## ")) {
+        htmlParts.push(`<h3>${formatInline(line.slice(3))}</h3>`);
+        i += 1;
+        continue;
+      }
+
+      if (/^[-*]\s+/.test(line)) {
+        const items = [];
+        while (i < lines.length && /^[-*]\s+/.test(lines[i].trim())) {
+          items.push(lines[i].trim().replace(/^[-*]\s+/, ""));
+          i += 1;
+        }
+        htmlParts.push("<ul>" + items.map((it) => `<li>${formatInline(it)}</li>`).join("") + "</ul>");
+        continue;
+      }
+
+      if (/^\d+\.\s+/.test(line)) {
+        const items = [];
+        while (i < lines.length && /^\d+\.\s+/.test(lines[i].trim())) {
+          items.push(lines[i].trim().replace(/^\d+\.\s+/, ""));
+          i += 1;
+        }
+        htmlParts.push("<ol>" + items.map((it) => `<li>${formatInline(it)}</li>`).join("") + "</ol>");
+        continue;
+      }
+
+      if (/^bottom line\s*:?/i.test(line)) {
+        const rest = line.replace(/^bottom line\s*:?\s*/i, "");
+        const paraLines = rest ? [rest] : [];
+        i += 1;
+        while (i < lines.length && lines[i].trim() && !lines[i].trim().startsWith("#") && !lines[i].trim().includes("|")) {
+          paraLines.push(lines[i].trim());
+          i += 1;
+        }
+        htmlParts.push(
+          `<div class="qa-bottom-line"><strong>Bottom Line:</strong> ${formatInline(paraLines.join(" "))}</div>`
+        );
+        continue;
+      }
+
+      const paraLines = [line];
+      i += 1;
+      while (
+        i < lines.length &&
+        lines[i].trim() &&
+        lines[i].trim() !== "---" &&
+        !lines[i].trim().startsWith("#") &&
+        !/^[-*]\s+/.test(lines[i].trim()) &&
+        !/^\d+\.\s+/.test(lines[i].trim()) &&
+        !lines[i].trim().includes("|")
+      ) {
+        paraLines.push(lines[i].trim());
+        i += 1;
+      }
+      htmlParts.push(`<p>${formatInline(paraLines.join(" "))}</p>`);
+    }
+
+    targetEl.innerHTML = htmlParts.join("");
+  })();
+</script>
+{% endblock %}

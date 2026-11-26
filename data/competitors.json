@@ -1,0 +1,182 @@
+[
+  {
+    "name": "L.E.K. Consulting",
+    "region": "US",
+    "peer_tier": "Mid-Sized (300–3,000 consultants)",
+    "hq": "Boston, US",
+    "focus": "Growth strategy, commercial due diligence, life sciences, industrials, and consumer",
+    "rss_query": "\"L.E.K. Consulting\" (acquires OR launches OR partner OR expansion OR strategy)",
+    "website": "https://www.lek.com"
+  },
+  {
+    "name": "Simon-Kucher",
+    "region": "US",
+    "peer_tier": "Mid-Sized (300–3,000 consultants)",
+    "hq": "Boston / Bonn (US Growth Practice)",
+    "focus": "Commercial strategy, pricing, sales effectiveness, and revenue growth",
+    "rss_query": "\"Simon-Kucher\" (launches OR partner OR expansion OR report OR pricing)",
+    "website": "https://www.simon-kucher.com"
+  },
+  {
+    "name": "Altman Solon",
+    "region": "US",
+    "peer_tier": "Mid-Sized (300–3,000 consultants)",
+    "hq": "Boston / New York, US",
+    "focus": "TMT growth strategy, go-to-market, commercial due diligence, and M&A advisory",
+    "rss_query": "\"Altman Solon\" (partner OR launches OR acquires OR growth OR strategy)",
+    "website": "https://www.altmansolon.com"
+  },
+  {
+    "name": "OC&C Strategy Consultants",
+    "region": "US",
+    "peer_tier": "Mid-Sized (300–3,000 consultants)",
+    "hq": "New York / Boston, US",
+    "focus": "Corporate growth strategy, B2B services, retail, consumer, and private equity due diligence",
+    "rss_query": "\"OC&C Strategy Consultants\" (partner OR expands OR acquires OR study OR strategy)",
+    "website": "https://www.occstrategy.com"
+  },
+  {
+    "name": "Arthur D. Little",
+    "region": "KSA",
+    "peer_tier": "Mid-Sized (300–3,000 consultants)",
+    "hq": "Riyadh, KSA (Middle East Practice)",
+    "focus": "Growth strategy, Vision 2030 transformation, energy, mobility, and digital advisory",
+    "rss_query": "\"Arthur D. Little\" (Saudi OR Riyadh OR KSA OR Vision 2030 OR partner)",
+    "website": "https://www.adlittle.com"
+  },
+  {
+    "name": "Roland Berger",
+    "region": "KSA",
+    "peer_tier": "Mid-Sized (300–3,000 consultants)",
+    "hq": "Riyadh, KSA (Middle East Practice)",
+    "focus": "Industrial strategy, sovereign mega-projects, energy transition, and public sector transformation",
+    "rss_query": "\"Roland Berger\" (Saudi OR Riyadh OR KSA OR PIF OR advisory)",
+    "website": "https://www.rolandberger.com"
+  },
+  {
+    "name": "Strategic Gears",
+    "region": "KSA",
+    "peer_tier": "Boutique (<300 consultants)",
+    "hq": "Riyadh, KSA",
+    "focus": "Saudi management consultancy specializing in strategy, market research, Vision 2030, and organizational advisory",
+    "rss_query": "\"Strategic Gears\" (Saudi OR Riyadh OR KSA OR launches OR partnership)",
+    "website": "https://strategicgears.com"
+  },
+  {
+    "name": "ValuStrat",
+    "region": "KSA",
+    "peer_tier": "Boutique (<300 consultants)",
+    "hq": "Riyadh / Jeddah, KSA",
+    "focus": "Advisory, valuations, market research, commercial feasibility, and transaction advisory in KSA",
+    "rss_query": "\"ValuStrat\" (Saudi OR Riyadh OR KSA OR report OR advisory)",
+    "website": "https://valustrat.com"
+  },
+  {
+    "name": "Alpen Capital",
+    "region": "UAE",
+    "peer_tier": "Boutique (<300 consultants)",
+    "hq": "Dubai, UAE",
+    "focus": "GCC investment banking, M&A advisory, market research, and sector feasibility studies",
+    "rss_query": "\"Alpen Capital\" (Dubai OR UAE OR GCC OR report OR advisory)",
+    "website": "https://www.alpencapital.com"
+  },
+  {
+    "name": "Frost & Sullivan",
+    "region": "UAE",
+    "peer_tier": "Mid-Sized (300–3,000 consultants)",
+    "hq": "Dubai, UAE (MENA Growth Practice)",
+    "focus": "Growth pipeline advisory, market intelligence, industry benchmarking, and innovation strategy",
+    "rss_query": "\"Frost & Sullivan\" (UAE OR Dubai OR Middle East OR growth OR launch)",
+    "website": "https://www.frost.com"
+  },
+  {
+    "name": "RedSeer Strategy Consultants",
+    "region": "UAE",
+    "peer_tier": "Boutique (<300 consultants)",
+    "hq": "Dubai, UAE (MENA Practice)",
+    "focus": "Digital economy, consumer internet, market entry, and commercial due diligence in MENA",
+    "rss_query": "\"RedSeer\" (UAE OR Dubai OR MENA OR Saudi OR report)",
+    "website": "https://redseer.com"
+  },
+  {
+    "name": "Marmore MENA Intelligence",
+    "region": "UAE",
+    "peer_tier": "Boutique (<300 consultants)",
+    "hq": "Dubai / Kuwait (GCC Practice)",
+    "focus": "GCC economic research, sector intelligence, industry feasibility, and bespoke market advisory",
+    "rss_query": "\"Marmore\" (MENA OR UAE OR GCC OR research OR report)",
+    "website": "https://www.marmoremena.com"
+  },
+  {
+    "name": "Praxis Global Alliance",
+    "region": "India",
+    "peer_tier": "Boutique (<300 consultants)",
+    "hq": "Gurugram / Mumbai, India",
+    "focus": "Management consulting, commercial due diligence, GTM strategy, and sector intelligence",
+    "rss_query": "\"Praxis Global Alliance\" (India OR launches OR partner OR report OR advisory)",
+    "website": "https://www.praxisga.com"
+  },
+  {
+    "name": "Avalon Consulting",
+    "region": "India",
+    "peer_tier": "Boutique (<300 consultants)",
+    "hq": "Mumbai / Chennai, India",
+    "focus": "Growth strategy, market entry, business transformation, M&A advisory, and manufacturing",
+    "rss_query": "\"Avalon Consulting\" (India OR Mumbai OR strategy OR advisory OR partner)",
+    "website": "https://www.consultavalon.com"
+  },
+  {
+    "name": "Zinnov",
+    "region": "India",
+    "peer_tier": "Mid-Sized (300–3,000 consultants)",
+    "hq": "Bengaluru, India",
+    "focus": "Global capability centers (GCCs), technology market intelligence, M&A advisory, and GTM strategy",
+    "rss_query": "\"Zinnov\" (India OR Bengaluru OR launches OR acquires OR report)",
+    "website": "https://zinnov.com"
+  },
+  {
+    "name": "PGA Labs",
+    "region": "India",
+    "peer_tier": "Boutique (<300 consultants)",
+    "hq": "New Delhi / Mumbai, India",
+    "focus": "Market intelligence, consumer insights, commercial due diligence, and competitive benchmarking",
+    "rss_query": "\"PGA Labs\" (India OR report OR market OR study OR advisory)",
+    "website": "https://pgalabs.in"
+  },
+  {
+    "name": "Dream Incubator",
+    "region": "Japan",
+    "peer_tier": "Boutique (<300 consultants)",
+    "hq": "Tokyo, Japan",
+    "focus": "Business production, new business creation, corporate growth strategy, and cross-border expansion",
+    "rss_query": "\"Dream Incubator\" (Japan OR Tokyo OR strategy OR partnership OR fund)",
+    "website": "https://www.dreamincubator.co.jp"
+  },
+  {
+    "name": "ABeam Consulting",
+    "region": "Japan",
+    "peer_tier": "Mid-Sized (300–3,000 consultants)",
+    "hq": "Tokyo, Japan",
+    "focus": "Business transformation, corporate strategy, M&A integration, and global supply chain advisory",
+    "rss_query": "\"ABeam Consulting\" (Japan OR Tokyo OR launches OR partnership OR advisory)",
+    "website": "https://www.abeam.com"
+  },
+  {
+    "name": "CDI (Corporate Directions Inc.)",
+    "region": "Japan",
+    "peer_tier": "Boutique (<300 consultants)",
+    "hq": "Tokyo, Japan",
+    "focus": "Independent Japanese management consultancy focusing on corporate strategy, M&A, and overseas growth",
+    "rss_query": "\"Corporate Directions\" (Japan OR Tokyo OR consulting OR strategy OR M&A)",
+    "website": "https://www.cdi-japan.co.jp/english/"
+  },
+  {
+    "name": "IGPI (Industrial Growth Platform)",
+    "region": "Japan",
+    "peer_tier": "Boutique (<300 consultants)",
+    "hq": "Tokyo, Japan",
+    "focus": "Corporate revitalization, growth strategy, M&A advisory, and hands-on management execution",
+    "rss_query": "\"Industrial Growth Platform\" OR \"IGPI\" (Japan OR Tokyo OR advisory OR M&A)",
+    "website": "https://www.igpi.co.jp/en/"
+  }
+]
